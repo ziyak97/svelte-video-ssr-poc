@@ -2,6 +2,8 @@
 	import Hls from 'hls.js';
 	import { onMount, onDestroy } from 'svelte';
 	import { play, pause } from './events';
+	export let thumbnail;
+	export let videoSrc;
 
 	let videoElement: HTMLVideoElement;
 	let hls: Hls;
@@ -12,9 +14,7 @@
 		hls.attachMedia(videoElement);
 		hls.on(Hls.Events.MEDIA_ATTACHED, function () {
 			console.log('video and hls.js are now bound together !');
-			hls.loadSource(
-				' https://cdnvideo-api.appbazaar.com/hls/yt-LT4_VgkKtOI/600k/HLS/yt-LT4_VgkKtOI_600k.m3u8'
-			);
+			hls.loadSource(videoSrc);
 			hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
 				console.log('manifest loaded, found ' + data.levels.length + ' quality level');
 			});
@@ -32,7 +32,7 @@
 	<video
 		bind:this={videoElement}
 		on:click={() => (videoElement.paused ? play(videoElement) : pause(videoElement))}
-		poster="https://mofirst.pc.cdn.bitgravity.com/preview_images/LT4_VgkKtOI.jpg"
+		poster={thumbnail}
 	/>
 </div>
 

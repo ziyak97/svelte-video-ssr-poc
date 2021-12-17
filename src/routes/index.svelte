@@ -1,13 +1,19 @@
 <script context="module" lang="ts">
-	//getStatic
+	function videoUrl(id) {
+		return `https://cdnvideo-api.appbazaar.com/hls/${id}/master.m3u8`;
+	}
 	export async function load({ fetch }) {
 		const res = await fetch(`/api/videos.json`);
-		const buf = await res.arrayBuffer();
-		const videos = new Uint8Array(buf);
-
+		const videos = await res.json();
+		// const videos = new Uint8Array(buf);
+		const filteredVideos = videos.map((video) => ({
+			thumbnail: video.thumbnail,
+			videoSrc: videoUrl(video.videoId)
+		}));
+		console.log(filteredVideos);
 		return {
 			props: {
-				videos
+				videos: filteredVideos
 			}
 		};
 	}
@@ -20,4 +26,4 @@
 
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-<VerticalVideoContainer />
+<VerticalVideoContainer {videos} />

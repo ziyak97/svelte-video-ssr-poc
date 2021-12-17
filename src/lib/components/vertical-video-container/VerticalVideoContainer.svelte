@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Video from '$lib/components/video/Video.svelte';
 	import { onMount } from 'svelte';
+	export let videos;
 
 	onMount(() => {
 		let options = {
@@ -31,15 +32,9 @@
 </script>
 
 <section class="container">
-	<Video />
-	<Video />
-	<Video />
-	<Video />
-	<Video />
-	<Video />
-	<Video />
-	<Video />
-	<Video />
+	{#each videos as video}
+		<Video thumbnail={video.thumbnail} videoSrc={video.videoSrc} />
+	{/each}
 </section>
 <div class="cover" />
 
