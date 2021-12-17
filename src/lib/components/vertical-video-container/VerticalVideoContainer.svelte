@@ -18,13 +18,14 @@
 			//entries all 30 paragraphs
 			entries.forEach((entry) => {
 				if (entry.isIntersecting) {
-					console.log('intersecting');
+					console.log('intersecting', entry.target.play());
 					console.log(entry.target);
 					console.log(entry.time, entry.intersectionRatio);
 					// entry.target.classList.add('active');
 					//ob.unobserve(entry.target);
 				} else {
-					entry.target.classList.remove('active');
+					if (!entry.target.paused) entry.target.pause();
+					// entry.target.classList.remove('active');
 				}
 			});
 		}
