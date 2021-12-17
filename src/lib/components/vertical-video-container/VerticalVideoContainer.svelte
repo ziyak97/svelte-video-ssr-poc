@@ -36,8 +36,8 @@
 		<Video thumbnail={video.thumbnail} videoSrc={video.videoSrc} />
 	{/each}
 </section>
-<div class="cover" />
 
+<!-- <div class="cover" /> -->
 <style>
 	.cover {
 		position: fixed;
