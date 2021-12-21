@@ -22,7 +22,7 @@
 					console.log(entry.target);
 					console.log(entry.time, entry.intersectionRatio);
 					// entry.target.classList.add('active');
-					//ob.unobserve(entry.target);
+					// ob.unobserve(entry.target);
 				} else {
 					if (!entry.target.paused) entry.target.pause();
 					// entry.target.classList.remove('active');
