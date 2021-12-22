@@ -1,8 +1,13 @@
 <script context="module" lang="ts">
+	import type { LoadInput } from '@sveltejs/kit';
+	import shuffle from '$lib/utils/shuffle';
+
 	function videoUrl(id) {
 		return `https://cdnvideo-api.appbazaar.com/hls/${id}/master.m3u8`;
 	}
-	export async function load({ fetch }) {
+	export async function load({ fetch, page }: LoadInput) {
+		const seed = parseInt(page.query.get('seed')) || 0;
+
 		const res = await fetch(`/api/videos.json`);
 		const videos = await res.json();
 		// const videos = new Uint8Array(buf);
@@ -10,10 +15,10 @@
 			thumbnail: video.thumbnail,
 			videoSrc: videoUrl(video.videoId)
 		}));
-		console.log(filteredVideos);
+		const shuffledVideos = shuffle(filteredVideos, seed);
 		return {
 			props: {
-				videos: filteredVideos
+				videos: shuffledVideos
 			}
 		};
 	}
@@ -24,6 +29,4 @@
 	export let videos: Uint8Array;
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 <VerticalVideoContainer {videos} />

@@ -4,10 +4,11 @@
 	export let videos;
 
 	onMount(() => {
-		let options = {
+		const width = window.innerWidth;
+		const options = {
 			root: null,
-			rootMargin: '-250px -50px',
-			threshold: 0.05
+			rootMargin: '-10% 0px -85% 0px',
+			threshold: width > 1600 ? 0.02 : 0.05
 		};
 		let observer = new IntersectionObserver(beTouching, options);
 		document.querySelectorAll('video').forEach((v) => {
@@ -15,17 +16,16 @@
 			//console.log("watching", v);
 		});
 		function beTouching(entries, ob) {
+			console.log('beTouching', entries, ob);
 			//entries all 30 paragraphs
 			entries.forEach((entry) => {
 				if (entry.isIntersecting) {
-					console.log('intersecting', entry.target.play());
-					console.log(entry.target);
-					console.log(entry.time, entry.intersectionRatio);
-					// entry.target.classList.add('active');
-					// ob.unobserve(entry.target);
+					console.log('watching', entry.target);
+					entry.target.play();
 				} else {
-					if (!entry.target.paused) entry.target.pause();
-					// entry.target.classList.remove('active');
+					if (!entry.target.paused) {
+						entry.target.pause();
+					}
 				}
 			});
 		}
